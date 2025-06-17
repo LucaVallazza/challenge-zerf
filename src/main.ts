@@ -71,7 +71,7 @@ const buildPathFromStack = (stack: { [key: string]: Directory }[]): string => {
 
 // Al no haber punteros, esta forma es una forma de simular un sistema de archivos en memoria. Aunque es una forma muy poco eficiente de buscar directorios y archivos
 // es la mas rapida que se me ocurre para este ejercicio.
-const pathFromcdHandler = (path: string): string | null => {
+const pathFromcdHandler = (path: string) => {
 
   const paths :string[]= []
   buildPathFromStack(stackDirectories).split("/").filter(val => (val != '')).forEach(path => paths.push(path))
@@ -97,18 +97,52 @@ const pathFromcdHandler = (path: string): string | null => {
       const lastDirectory = stackDirectories.pop() 
       if(lastDirectory == undefined){
         console.log("No se puede ir mas alla de la carpeta raiz")
-        return null
+        return
       }
       parts.pop()
     }
     else{
       console.log('No se ha encontrado el directorio')
-      return null
+      return
     }
 
   }
+  currentPath = parts.join('/')!
 
-  return parts.join('/')
+  return 
+};
+
+const mkdirHandler = (dirName: string) => {
+
+  const paths :string[]= []
+  buildPathFromStack(stackDirectories).split("/").filter(val => (val != '')).forEach(path => paths.push(path))
+
+  const parts = []
+
+  var dir  = directories['/']
+
+  // Hacemos la busqueda desde 0
+  for (let i = 0; i < paths.length; i++) {
+    if (
+      dir.contents &&
+      dir.contents[paths[i]] &&
+      dir.contents[paths[i]].type == "dir"
+    ) {
+      dir = dir.contents[paths[i]];
+    } else {
+      console.log("No se ha encontrado el directorio");
+      return;
+    }
+  }
+
+        dir.contents = {
+        ...dir.contents,
+        [dirName]: { type: "dir", contents: {} },
+      };
+
+  console.log("Carpeta creada")
+
+  return
 };
 
 // Función para obtener el último directorio del stack
@@ -173,7 +207,6 @@ rl.on("line", (line) => {
       }
       currentPath = newPath!
       // updatePrompt()
-      console.log(currentPath)
       break;
     case "ls":
       // Logica para ls()
@@ -181,6 +214,10 @@ rl.on("line", (line) => {
       break;
     case "mkdir":
       // Logica para mkdir(args[0])
+      mkdirHandler(args[0])
+
+      // updatePrompt()
+      break;
       break;
     case "touch":
       // Logica para touch(args[0])
