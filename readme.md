@@ -11,7 +11,7 @@ Sigue estos pasos para instalar y ejecutar el proyecto:
 git clone https://github.com/LucaVallazza/challenge-zerf.git
 
 # 2. Navega al directorio del proyecto
-cd ts
+cd challenge-zerf
 
 # 3. Instala las dependencias
 npm install
@@ -41,6 +41,21 @@ Una vez ejecutada la aplicación, aparecerá un prompt similar al de una termina
 
 - `src/main.ts`: Archivo principal que contiene la implementación del sistema de archivos. Idealmente me hubiera gustado distribuir algunas funciones en distintos archivos y módulos, pero no llegué con el tiempo.
 
+## Estructura inicial del sistema de archivos
+
+El sistema comienza con la siguiente estructura de directorios y archivos:
+
+```
+/
+└── home/
+    ├── user/
+    │   ├── documents/
+    │   ├── photos/
+    │   └── notes.txt
+    ├── public/
+    │   └── readme.txt
+    └── guest/
+```
 
 ## Notas
 
