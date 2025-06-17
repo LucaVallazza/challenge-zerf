@@ -4,7 +4,7 @@ var currentPath = "/";
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: '~',
+  prompt: "~",
 });
 
 rl.prompt();
@@ -21,7 +21,6 @@ interface Directory {
 }
 
 var stackDirectories: { [key: string]: Directory }[] = [];
-
 
 // Creamos una variable para almacenar el directorio actual
 var directories: { [key: string]: Directory } = {
@@ -57,102 +56,74 @@ var directories: { [key: string]: Directory } = {
 
 const buildPathFromStack = (stack: { [key: string]: Directory }[]): string => {
   // Si el stack está vacío, devolvemos la raíz
-  if (stack.length === 0) return '/';
-  
+  if (stack.length === 0) return "/";
+
   // Extraemos las keys de cada objeto en el stack
-  const pathSegments = stack.map(dirObj => {
+  const pathSegments = stack.map((dirObj) => {
     // Cada objeto en stack tiene una única clave
     return Object.keys(dirObj)[0];
   });
-  
+
   // Unimos los segmentos del path
-  return pathSegments.join('/');
+  return pathSegments.join("/");
 };
 
 // Al no haber punteros, esta forma es una forma de simular un sistema de archivos en memoria. Aunque es una forma muy poco eficiente de buscar directorios y archivos
 // es la mas rapida que se me ocurre para este ejercicio.
 const pathFromcdHandler = (path: string) => {
+  const paths: string[] = [];
+  buildPathFromStack(stackDirectories)
+    .split("/")
+    .filter((val) => val != "")
+    .forEach((path) => paths.push(path));
+  path
+    .split("/")
+    .filter((val) => val != "")
+    .forEach((path) => paths.push(path));
 
-  const paths :string[]= []
-  buildPathFromStack(stackDirectories).split("/").filter(val => (val != '')).forEach(path => paths.push(path))
-  path.split("/").filter(val => (val != '')).forEach(path => paths.push(path))
+  const parts = [];
 
-  const parts = []
-
-  var dir : Directory = directories['/']
-
-  // Hacemos la busqueda desde 0
-  stackDirectories = []
-  for(const path of paths ){
-
-    if(dir.contents && dir.contents[path] && dir.contents[path].type == 'dir' ){
-
-      dir = dir.contents[path]
-
-      stackDirectories.push({[path]: dir })
-      parts.push(path)
-
-
-    }else if(path == ".."){
-      const lastDirectory = stackDirectories.pop() 
-      if(lastDirectory == undefined){
-        console.log("No se puede ir mas alla de la carpeta raiz")
-        return
-      }
-      parts.pop()
-    }
-    else{
-      console.log('No se ha encontrado el directorio')
-      return
-    }
-
-  }
-  currentPath = parts.join('/')!
-
-  return 
-};
-
-const mkdirHandler = (dirName: string) => {
-
-  const paths :string[]= []
-  buildPathFromStack(stackDirectories).split("/").filter(val => (val != '')).forEach(path => paths.push(path))
-
-  const parts = []
-
-  var dir  = directories['/']
+  var dir: Directory = directories["/"];
 
   // Hacemos la busqueda desde 0
-  for (let i = 0; i < paths.length; i++) {
+  stackDirectories = [];
+  for (const path of paths) {
     if (
       dir.contents &&
-      dir.contents[paths[i]] &&
-      dir.contents[paths[i]].type == "dir"
+      dir.contents[path] &&
+      dir.contents[path].type == "dir"
     ) {
-      dir = dir.contents[paths[i]];
+      dir = dir.contents[path];
+
+      stackDirectories.push({ [path]: dir });
+      parts.push(path);
+    } else if (path == "..") {
+      const lastDirectory = stackDirectories.pop();
+      if (lastDirectory == undefined) {
+        console.log("No se puede ir mas alla de la carpeta raiz");
+        return;
+      }
+      parts.pop();
     } else {
       console.log("No se ha encontrado el directorio");
       return;
     }
   }
+  currentPath = parts.join("/")!;
 
-        dir.contents = {
-        ...dir.contents,
-        [dirName]: { type: "dir", contents: {} },
-      };
-
-  console.log("Carpeta creada")
-
-  return
+  return;
 };
 
-const touchHandler = (fileName: string) => {
+const mkdirHandler = (dirName: string) => {
+  const paths: string[] = [];
+  buildPathFromStack(stackDirectories)
+    .split("/")
+    .filter((val) => val != "")
+    .forEach((path) => paths.push(path));
 
-  const paths :string[]= []
-  buildPathFromStack(stackDirectories).split("/").filter(val => (val != '')).forEach(path => paths.push(path))
+  const parts = [];
 
-  const parts = []
-
-  var dir  = directories['/']
+  var dir = directories["/"];
 
   // Hacemos la busqueda desde 0
   for (let i = 0; i < paths.length; i++) {
@@ -168,32 +139,68 @@ const touchHandler = (fileName: string) => {
     }
   }
 
-        dir.contents = {
-        ...dir.contents,
-        [fileName]: { type: "file", contents: {} },
-      };
+  dir.contents = {
+    ...dir.contents,
+    [dirName]: { type: "dir", contents: {} },
+  };
 
-  console.log("Archivo creado")
+  console.log("Carpeta creada");
 
-  return
+  return;
 };
 
+const touchHandler = (fileName: string) => {
+  const paths: string[] = [];
+  buildPathFromStack(stackDirectories)
+    .split("/")
+    .filter((val) => val != "")
+    .forEach((path) => paths.push(path));
+
+  const parts = [];
+
+  var dir = directories["/"];
+
+  // Hacemos la busqueda desde 0
+  for (let i = 0; i < paths.length; i++) {
+    if (
+      dir.contents &&
+      dir.contents[paths[i]] &&
+      dir.contents[paths[i]].type == "dir"
+    ) {
+      dir = dir.contents[paths[i]];
+    } else {
+      console.log("ERROR: No se ha encontrado el directorio");
+      return;
+    }
+  }
+
+  dir.contents = {
+    ...dir.contents,
+    [fileName]: { type: "file", contents: {} },
+  };
+
+  console.log("Archivo creado");
+
+  return;
+};
 
 // Función para obtener el último directorio del stack
 const getLastDirectory = (): Directory | null => {
   if (stackDirectories.length === 0) {
-    return directories['/'];
+    return directories["/"];
   }
-  
+
   const lastDirObj = stackDirectories[stackDirectories.length - 1];
-  
+
   const key = Object.keys(lastDirObj)[0];
-  
+
   return lastDirObj[key];
 };
 
 // Función para obtener los contenidos del último directorio
-const getLastDirectoryContents = (): { [key: string]: Directory } | undefined => {
+const getLastDirectoryContents = ():
+  | { [key: string]: Directory }
+  | undefined => {
   const lastDir = getLastDirectory();
   if (lastDir) {
     return lastDir.contents;
@@ -207,53 +214,58 @@ const handleLs = () => {
     console.log("vacío");
     return;
   }
-  
+
   const formattedEntries = [];
-  
+
   // Recorrer cada entrada en el directorio
   for (const [name, entry] of Object.entries(dirContent)) {
-    if (entry.type === 'dir') {
+    if (entry.type === "dir") {
       formattedEntries.push(`${name}/`);
-    } else {    
+    } else {
       formattedEntries.push(name);
     }
   }
-  
-  console.log(formattedEntries.sort().join('  '));
-}
+
+  console.log(formattedEntries.sort().join("  "));
+};
 
 // Es una alternativa muy poco escalable, pero para ahorrar tiempo la voy a usar ya que es una forma sencilla de manejar el prompt
 rl.on("line", (line) => {
   const [cmd, ...args] = line.trim().split(" ");
 
-
-
   switch (cmd) {
     case "cd":
-      if (args.length === 0) {
+      if (args.length === 0 || args.length > 1) {
         console.log("Uso: cd <directorio>");
         break;
       }
 
       const newPath = pathFromcdHandler(args[0]);
-      if(newPath == null){
+      if (newPath == null) {
         break;
       }
-      currentPath = newPath!
+      currentPath = newPath!;
 
       break;
     case "ls":
-
-      handleLs()
+      handleLs();
       break;
     case "mkdir":
-      mkdirHandler(args[0])
+      if (args.length === 0 || args.length > 1) {
+        console.log("Uso: mkdir <nombreNuevaCarpeta>");
+        break;
+      }
+      mkdirHandler(args[0]);
       break;
     case "touch":
-      touchHandler(args[0])
+      if (args.length === 0 || args.length > 1) {
+        console.log("Uso: touch <nombreNuevoArchivo>");
+        break;
+      }
+      touchHandler(args[0]);
       break;
     case "pwd":
-      console.log(currentPath)
+      console.log(currentPath);
       break;
     case "exit":
       rl.close();
