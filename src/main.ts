@@ -4,16 +4,16 @@ var currentPath = "/";
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: currentPath,
+  prompt: '~',
 });
 
 rl.prompt();
 
-const updatePrompt = () => {
-  const displayPath = currentPath ? `/${currentPath}` : '/';
-  rl.setPrompt(`${displayPath}> `);
-  rl.prompt();
-};
+// const updatePrompt = () => {
+//   const displayPath = currentPath ? `/${currentPath}` : '/';
+//   rl.setPrompt(`${displayPath}> `);
+//   rl.prompt();
+// };
 
 interface Directory {
   type: "dir" | "file";
@@ -172,7 +172,7 @@ rl.on("line", (line) => {
         break;
       }
       currentPath = newPath!
-      updatePrompt()
+      // updatePrompt()
       console.log(currentPath)
       break;
     case "ls":
@@ -186,7 +186,7 @@ rl.on("line", (line) => {
       // Logica para touch(args[0])
       break;
     case "pwd":
-      // Logica para pwd()
+      console.log(currentPath)
       break;
     case "exit":
       rl.close();
