@@ -85,6 +85,7 @@ const pathFromcdHandler = (path: string): string | null => {
   // Hacemos la busqueda desde 0
   stackDirectories = []
   for(const path of paths ){
+
     if(dir.contents && dir.contents[path] && dir.contents[path].type == 'dir' ){
 
       dir = dir.contents[path]
@@ -93,7 +94,11 @@ const pathFromcdHandler = (path: string): string | null => {
       parts.push(path)
 
       console.log(path , ' was found')
-    }else{
+    }else if(path == ".."){
+      parts.pop()
+      stackDirectories.pop()
+    }
+    else{
       console.log(path, ' was not found')
     }
 
