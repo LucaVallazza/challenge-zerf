@@ -81,8 +81,6 @@ const pathFromcdHandler = (path: string): string | null => {
 
   var dir : Directory = directories['/']
 
-
-
   // Hacemos la busqueda desde 0
   stackDirectories = []
   for(const path of paths ){
@@ -96,22 +94,65 @@ const pathFromcdHandler = (path: string): string | null => {
 
 
     }else if(path == ".."){
+      const lastDirectory = stackDirectories.pop() 
+      if(lastDirectory == undefined){
+        console.log("No se puede ir mas alla de la carpeta raiz")
+        return null
+      }
       parts.pop()
-      stackDirectories.pop()
     }
     else{
-
+      console.log('No se ha encontrado el directorio')
+      return null
     }
 
   }
 
-  currentPath = parts.join('/')
-  updatePrompt()
-
-
-
-  return currentPath
+  return parts.join('/')
 };
+
+// Función para obtener el último directorio del stack
+const getLastDirectory = (): Directory | null => {
+  if (stackDirectories.length === 0) {
+    return directories['/'];
+  }
+  
+  const lastDirObj = stackDirectories[stackDirectories.length - 1];
+  
+  const key = Object.keys(lastDirObj)[0];
+  
+  return lastDirObj[key];
+};
+
+// Función para obtener los contenidos del último directorio
+const getLastDirectoryContents = (): { [key: string]: Directory } | undefined => {
+  const lastDir = getLastDirectory();
+  if (lastDir) {
+    return lastDir.contents;
+  }
+  return undefined;
+};
+
+const handleLs = () => {
+  const dirContent = getLastDirectoryContents();
+  if (!dirContent) {
+    console.log("(directorio vacío)");
+    return;
+  }
+  
+  const formattedEntries = [];
+  
+  // Recorrer cada entrada en el directorio
+  for (const [name, entry] of Object.entries(dirContent)) {
+    if (entry.type === 'dir') {
+      formattedEntries.push(`${name}/`);
+    } else {    
+      formattedEntries.push(name);
+    }
+  }
+  
+  console.log(formattedEntries.sort().join('  '));
+}
 
 // Es una alternativa muy poco escalable, pero para ahorrar tiempo la voy a usar ya que es una forma sencilla de manejar el prompt
 rl.on("line", (line) => {
@@ -127,13 +168,16 @@ rl.on("line", (line) => {
       }
 
       const newPath = pathFromcdHandler(args[0]);
+      if(newPath == null){
+        break;
+      }
+      currentPath = newPath!
+      updatePrompt()
       console.log(currentPath)
-      // console.log(newPath);
-
-      // Logica para cd(args[0])
       break;
     case "ls":
       // Logica para ls()
+      handleLs()
       break;
     case "mkdir":
       // Logica para mkdir(args[0])
