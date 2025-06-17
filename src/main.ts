@@ -1,12 +1,19 @@
 import * as readline from "readline";
+var currentPath = "/";
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: "$ ",
+  prompt: currentPath,
 });
 
 rl.prompt();
+
+const updatePrompt = () => {
+  const displayPath = currentPath ? `/${currentPath}` : '/';
+  rl.setPrompt(`${displayPath}> `);
+  rl.prompt();
+};
 
 interface Directory {
   type: "dir" | "file";
@@ -15,7 +22,6 @@ interface Directory {
 
 var stackDirectories: { [key: string]: Directory }[] = [];
 
-var currentPath = "/";
 
 // Creamos una variable para almacenar el directorio actual
 var directories: { [key: string]: Directory } = {
@@ -71,12 +77,7 @@ const pathFromcdHandler = (path: string): string | null => {
   buildPathFromStack(stackDirectories).split("/").filter(val => (val != '')).forEach(path => paths.push(path))
   path.split("/").filter(val => (val != '')).forEach(path => paths.push(path))
 
-
-  console.log('SE BUSCARA CON ESTO')
-  console.log(paths)
-
   const parts = []
-  console.log('parts' , paths)
 
   var dir : Directory = directories['/']
 
@@ -93,30 +94,30 @@ const pathFromcdHandler = (path: string): string | null => {
       stackDirectories.push({[path]: dir })
       parts.push(path)
 
-      console.log(path , ' was found')
+
     }else if(path == ".."){
       parts.pop()
       stackDirectories.pop()
     }
     else{
-      console.log(path, ' was not found')
+
     }
 
   }
 
-  console.log(stackDirectories)
-  console.log(parts.join('/'))
   currentPath = parts.join('/')
+  updatePrompt()
 
 
-  return paths[0]
+
+  return currentPath
 };
 
 // Es una alternativa muy poco escalable, pero para ahorrar tiempo la voy a usar ya que es una forma sencilla de manejar el prompt
 rl.on("line", (line) => {
   const [cmd, ...args] = line.trim().split(" ");
 
-  console.log(args);
+
 
   switch (cmd) {
     case "cd":
@@ -126,7 +127,7 @@ rl.on("line", (line) => {
       }
 
       const newPath = pathFromcdHandler(args[0]);
-
+      console.log(currentPath)
       // console.log(newPath);
 
       // Logica para cd(args[0])
