@@ -49,12 +49,26 @@ var directories: { [key: string]: Directory } = {
   },
 };
 
+const buildPathFromStack = (stack: { [key: string]: Directory }[]): string => {
+  // Si el stack está vacío, devolvemos la raíz
+  if (stack.length === 0) return '/';
+  
+  // Extraemos las keys de cada objeto en el stack
+  const pathSegments = stack.map(dirObj => {
+    // Cada objeto en stack tiene una única clave
+    return Object.keys(dirObj)[0];
+  });
+  
+  // Unimos los segmentos del path
+  return pathSegments.join('/');
+};
+
 // Al no haber punteros, esta forma es una forma de simular un sistema de archivos en memoria. Aunque es una forma muy poco eficiente de buscar directorios y archivos
 // es la mas rapida que se me ocurre para este ejercicio.
 const pathFromcdHandler = (path: string): string | null => {
 
   const paths :string[]= []
-  currentPath.split("/").filter(val => (val != '')).forEach(path => paths.push(path))
+  buildPathFromStack(stackDirectories).split("/").filter(val => (val != '')).forEach(path => paths.push(path))
   path.split("/").filter(val => (val != '')).forEach(path => paths.push(path))
 
 
@@ -66,7 +80,7 @@ const pathFromcdHandler = (path: string): string | null => {
 
   var dir : Directory = directories['/']
 
-  
+
 
   // Hacemos la busqueda desde 0
   stackDirectories = []
