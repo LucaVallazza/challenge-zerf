@@ -88,7 +88,15 @@ const pathFromcdHandler = (path: string) => {
   // Hacemos la busqueda desde 0
   stackDirectories = [];
   for (const path of paths) {
-    if (
+    if (path == "..") {
+      const lastDirectory = stackDirectories.pop();
+      if (lastDirectory == undefined) {
+        console.log("No se puede ir mas alla de la carpeta raiz");
+        return;
+      }
+      parts.pop();
+    }
+    else if (
       dir.contents &&
       dir.contents[path] &&
       dir.contents[path].type == "dir"
@@ -97,13 +105,6 @@ const pathFromcdHandler = (path: string) => {
 
       stackDirectories.push({ [path]: dir });
       parts.push(path);
-    } else if (path == "..") {
-      const lastDirectory = stackDirectories.pop();
-      if (lastDirectory == undefined) {
-        console.log("No se puede ir mas alla de la carpeta raiz");
-        return;
-      }
-      parts.pop();
     } else {
       console.log("No se ha encontrado el directorio");
       return;
