@@ -1,6 +1,18 @@
-# Linux File System Simulator
+# Linux Mock File System
 
-Este proyecto simula el funcionamiento básico de un sistema de archivos tipo Linux, implementando comandos como `cd` y `ls`
+Este proyecto simula el funcionamiento básico de un sistema de archivos tipo Linux, implementando comandos como `cd`, `ls`, `touch`, `mkdir` y `pwd` 
+
+## Notas
+
+Decidí encarar la resolución en TypeScript para sumar un poco de dificultad y salirme de mi zona de confort, pero me encontré con más obstaculos de los que esperaba, sobre todo al momento de estructurar el filesystem sin usar punteros.
+
+Muy probablemente la resolución actual sea muy mejorable en terminos de eficiencia, ya que durante el proceso cree variables que termine no usando. 
+
+Bajo mi criterio, en esta instancia de evaluación, la prioridad era entregar un proyecto funcional. Soy plenamente consciente de que hay muchas mejoras posibles como ser: 
+- Una mejor organización en archivos y módulos para mayor claridad
+- Más comentarios para facilitar la lectura del código
+
+Y hasta incluso se podria hacer un rediseño del manejo de directorios para mejorar su eficiencia y su usabilidad. Bajo la presión del challenge técnico, opté por avanzar con la mejor de las primeras soluciones que se me ocurrieron para asegurarme de llegar a una entrega completa y funcional.
 
 ## Instalación
 
@@ -31,10 +43,20 @@ npm run dev
 Una vez ejecutada la aplicación, aparecerá un prompt similar al de una terminal Linux. Puedes usar los siguientes comandos:
 
 - `cd <ruta>`: Cambia el directorio actual.
-  - Ejemplo: `cd home/user` o `cd ..` para ir al directorio padre.
+  - Ejemplo: `cd home/user` o `cd ..`para ir al directorio padre o incluso `cd ../../` para subir 2 directorios y se puede stackear las veces que uno quiera. .
   
 - `ls`: Lista los contenidos del directorio actual.
-  - Los directorios se muestran con una barra (/) al final.
+  - Nota: Los directorios se muestran con una barra (/) al final.
+  - En caso de no haber archivos, en vez de no mostrar nada, muestra `<vacío>`
+
+- `touch <fileName>`: Crea un nuevo archivo en el directorio donde se encuentra el usuario
+  - Ejemplo: `touch archivo.txt` para crear un archivo con ese nombre.
+
+- `mkdir <dirName>`: Crea un nuevo directorio donde se encuentra el usuario
+  - Ejemplo: `cd home/user` o `cd ..` para ir al directorio padre.
+
+- `pwd`: Muestra en pantalla la ruta sobre la que el usuario se encuentra
+
 
 
 ## Estructura del proyecto
@@ -57,19 +79,3 @@ El sistema comienza con la siguiente estructura de directorios y archivos:
     └── guest/
 ```
 
-## Notas
-
-El proyecto está desarrollado con TypeScript y utiliza el módulo `readline` de Node.js para la interacción por consola.
-
-### Mensaje importante
-
-Decidí encarar la resolución en TypeScript para sumar un poco de dificultad y salirme de mi zona de confort, pero me encontré con más obstaculos de los que esperaba, sobre todo al momento de estructurar el filesystem sin usar punteros.
-
-Estoy muy acostumbrado a resolver este tipo de problemas con Go o C, así que terminé perdiendo muchisimo tiempo buscando la forma más adecuada de encararlo.
-
-Lamentablemente, eso me hizo avanzar mucho menos de lo que me hubiese gustado. Me entusiasmó mucho todo lo que me comentó Sofía sobre la empresa en la entrevista sobre la empresa, así que me da pena no poder entregar algo más completo dentro del plazo que se estableció, entendiendo que esta entrega probablemente me deje fuera del proceso, y también soy 100% consciente de que sería justo que así sea.
-
-De todas formas, voy a terminar el challenge y lo voy a subir completo, aunque sea fuera de tiempo. Si hay alguna flexibilidad con los plazos y consideran mi perfil aún con esta entrega, realmente me sentiría realmente muy agradecido porque se que tengo mucho más para dar.
-
-Saludos,
-Luca Vallazza
