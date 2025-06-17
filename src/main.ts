@@ -211,8 +211,8 @@ const getLastDirectoryContents = ():
 
 const handleLs = () => {
   const dirContent = getLastDirectoryContents();
-  if (!dirContent) {
-    console.log("vacío");
+  if (!dirContent || Object.keys(dirContent).length == 0) {
+    console.log("<vacío>");
     return;
   }
 
