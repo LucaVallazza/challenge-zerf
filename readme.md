@@ -2,6 +2,9 @@
 
 Este proyecto simula el funcionamiento básico de un sistema de archivos tipo Linux, implementando comandos como `cd` y `ls`
 
+## ⚠ IMPORTANTE
+A raíz de un mail que envié, me respondieron dandome 1 hora mas para completar el challenge. Los cambios estan en la rama `entrega-tarde`, dentro de la cual se encuentra el programa con **todas las funciones solicitadas en funcionamiento** (aunque no llegue a testearlas en profundidad). Aca únicamente pude llegar a implementar `cd` y `ls`.
+
 ## Instalación
 
 Sigue estos pasos para instalar y ejecutar el proyecto:
@@ -57,19 +60,3 @@ El sistema comienza con la siguiente estructura de directorios y archivos:
     └── guest/
 ```
 
-## Notas
-
-El proyecto está desarrollado con TypeScript y utiliza el módulo `readline` de Node.js para la interacción por consola.
-
-### Mensaje importante
-
-Decidí encarar la resolución en TypeScript para sumar un poco de dificultad y salirme de mi zona de confort, pero me encontré con más obstaculos de los que esperaba, sobre todo al momento de estructurar el filesystem sin usar punteros.
-
-Estoy muy acostumbrado a resolver este tipo de problemas con Go o C, así que terminé perdiendo muchisimo tiempo buscando la forma más adecuada de encararlo.
-
-Lamentablemente, eso me hizo avanzar mucho menos de lo que me hubiese gustado. Me entusiasmó mucho todo lo que me comentó Sofía sobre la empresa en la entrevista sobre la empresa, así que me da pena no poder entregar algo más completo dentro del plazo que se estableció, entendiendo que esta entrega probablemente me deje fuera del proceso, y también soy 100% consciente de que sería justo que así sea.
-
-De todas formas, voy a terminar el challenge y lo voy a subir completo, aunque sea fuera de tiempo. Si hay alguna flexibilidad con los plazos y consideran mi perfil aún con esta entrega, realmente me sentiría realmente muy agradecido porque se que tengo mucho más para dar.
-
-Saludos,
-Luca Vallazza
