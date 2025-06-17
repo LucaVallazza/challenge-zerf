@@ -1,13 +1,23 @@
 import * as readline from "readline";
+import MuteStream from "mute-stream";
 var currentPath = "/";
+
+const ms = new MuteStream();
+ms.pipe(process.stdout); // Pipe normal hacia consola
+
+ms.mute(); // Desactiva el echo (puedes llamarlo cuando quieras "silenciar")
+
 
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout,
-  prompt: "~",
+  output: ms,
+  terminal: true,
+  prompt: "~"
 });
 
+ms.unmute()
 rl.prompt();
+ms.mute()
 
 // const updatePrompt = () => {
 //   const displayPath = currentPath ? `/${currentPath}` : '/';
@@ -274,7 +284,10 @@ rl.on("line", (line) => {
     default:
       console.log("Comando no reconocido");
   }
+
+  ms.unmute()
   rl.prompt();
+  ms.mute()
 }).on("close", () => {
   console.log("Programa finalizado");
   process.exit(0);
