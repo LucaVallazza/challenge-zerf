@@ -145,6 +145,40 @@ const mkdirHandler = (dirName: string) => {
   return
 };
 
+const touchHandler = (fileName: string) => {
+
+  const paths :string[]= []
+  buildPathFromStack(stackDirectories).split("/").filter(val => (val != '')).forEach(path => paths.push(path))
+
+  const parts = []
+
+  var dir  = directories['/']
+
+  // Hacemos la busqueda desde 0
+  for (let i = 0; i < paths.length; i++) {
+    if (
+      dir.contents &&
+      dir.contents[paths[i]] &&
+      dir.contents[paths[i]].type == "dir"
+    ) {
+      dir = dir.contents[paths[i]];
+    } else {
+      console.log("ERROR: No se ha encontrado el directorio");
+      return;
+    }
+  }
+
+        dir.contents = {
+        ...dir.contents,
+        [fileName]: { type: "file", contents: {} },
+      };
+
+  console.log("Archivo creado")
+
+  return
+};
+
+
 // Función para obtener el último directorio del stack
 const getLastDirectory = (): Directory | null => {
   if (stackDirectories.length === 0) {
@@ -170,7 +204,7 @@ const getLastDirectoryContents = (): { [key: string]: Directory } | undefined =>
 const handleLs = () => {
   const dirContent = getLastDirectoryContents();
   if (!dirContent) {
-    console.log("(directorio vacío)");
+    console.log("vacío");
     return;
   }
   
@@ -206,21 +240,17 @@ rl.on("line", (line) => {
         break;
       }
       currentPath = newPath!
-      // updatePrompt()
+
       break;
     case "ls":
-      // Logica para ls()
+
       handleLs()
       break;
     case "mkdir":
-      // Logica para mkdir(args[0])
       mkdirHandler(args[0])
-
-      // updatePrompt()
-      break;
       break;
     case "touch":
-      // Logica para touch(args[0])
+      touchHandler(args[0])
       break;
     case "pwd":
       console.log(currentPath)
