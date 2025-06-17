@@ -150,6 +150,11 @@ const mkdirHandler = (dirName: string) => {
     }
   }
 
+  if (dir.contents && dir.contents[dirName]) {
+    console.log(`ERROR: Ya existe una carpeta con ese nombre`);
+    return;
+  }
+
   dir.contents = {
     ...dir.contents,
     [dirName]: { type: "dir", contents: {} },
@@ -183,6 +188,11 @@ const touchHandler = (fileName: string) => {
       console.log("ERROR: No se ha encontrado el directorio");
       return;
     }
+  }
+
+  if (dir.contents && dir.contents[fileName]) {
+    console.log(`ERROR: Ya existe un archivo con ese nombre`);
+    return;
   }
 
   dir.contents = {
