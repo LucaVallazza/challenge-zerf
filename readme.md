@@ -1,4 +1,6 @@
-# Linux Mock File System
+# Linux Mock File System - Entrega tarde
+
+A raíz de lo que comenté, me enviaron un mensaje diciendome que contaba con 1 hora mas para realizar el challenge, y que suba los nuevos avances a esta rama.
 
 Este proyecto simula el funcionamiento básico de un sistema de archivos tipo Linux, implementando comandos como `cd`, `ls`, `touch`, `mkdir` y `pwd` 
 
