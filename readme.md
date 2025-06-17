@@ -27,7 +27,10 @@ git clone https://github.com/LucaVallazza/challenge-zerf.git
 # 2. Navega al directorio del proyecto
 cd challenge-zerf
 
-# 3. Instala las dependencias
+# 3. Cambiar a la rama actual
+git checkout entrega-tarde
+
+# 4. Instala las dependencias
 npm install
 ```
 
