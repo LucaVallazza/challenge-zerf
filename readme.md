@@ -6,7 +6,7 @@ Este proyecto simula el funcionamiento básico de un sistema de archivos tipo Li
 A raíz de un mail que envié, me respondieron dandome 1 hora mas para completar el challenge. Los cambios estan en la rama `entrega-tarde`, dentro de la cual se encuentra el programa con **todas las funciones solicitadas en funcionamiento** (aunque no llegue a testearlas en profundidad). Aca únicamente pude llegar a implementar `cd` y `ls`.
 
 ## Nota
-Debido a una malinterpretación de mi parte de la consigna, la terminal siempre muestra un `~ <userPrompt>`. Me parecía antinatural y en un principio la implementacion era distinta y mostraba las rutas (como una terminal real), por ejemplo `home/user> <prompt>` pero por algun motivo interpreté mal la imagen de la consigna y asumí que siempre el input debería ser mostrando un `~` y que en caso de querer conocer la ruta se usaria un `pwd` (el cual en esta rama no esta implementado, pero si en la de `entrega-tarde`.
+Debido a una malinterpretación de mi parte de la consigna, la terminal siempre muestra un `~ <userPrompt>`. Me parecía antinatural y en un principio la implementacion era distinta y mostraba las rutas (como una terminal real), por ejemplo `home/user> <prompt>` pero por algun motivo interpreté mal la imagen de la consigna y asumí que siempre el input debería ser mostrando un `~` y que en caso de querer conocer la ruta se usaria un `pwd` (el cual en esta rama no esta implementado, pero si en la de `entrega-tarde`).
 
 ## Instalación
 
