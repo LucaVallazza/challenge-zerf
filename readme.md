@@ -16,6 +16,10 @@ Bajo mi criterio, en esta instancia de evaluación, la prioridad era entregar un
 
 Y hasta incluso se podria hacer un rediseño del manejo de directorios para mejorar su eficiencia y su usabilidad. Bajo la presión del challenge técnico, opté por avanzar con la mejor de las primeras soluciones que se me ocurrieron para asegurarme de llegar a una entrega completa y funcional.
 
+### Nota sobre la terminal
+Debido a una malinterpretación de mi parte de la consigna, la terminal siempre muestra un `~ <userPrompt>`. Me parecía antinatural y en un principio la implementacion era distinta y mostraba las rutas (como una terminal real), por ejemplo `home/user> <prompt>` pero por algun motivo interpreté mal la imagen de la consigna y asumí que siempre el input debería ser mostrando un `~` y que en caso de querer conocer la ruta se usaria un `pwd`.
+
+
 ## Instalación
 
 Sigue estos pasos para instalar y ejecutar el proyecto:
