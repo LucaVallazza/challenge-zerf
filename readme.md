@@ -56,7 +56,7 @@ Una vez ejecutada la aplicación, aparecerá un prompt similar al de una termina
   
 - `ls`: Lista los contenidos del directorio actual.
   - Nota: Los directorios se muestran con una barra (/) al final.
-  - En caso de no haber archivos, en vez de no mostrar nada, muestra `<vacío>`
+  - En caso de no haber archivos ni directorios, en vez de no mostrar nada, muestra `<vacío>`
 
 - `touch <fileName>`: Crea un nuevo archivo en el directorio donde se encuentra el usuario
   - Ejemplo: `touch archivo.txt` para crear un archivo con ese nombre.
